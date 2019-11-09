@@ -15,7 +15,20 @@ products = page_data_soup.find_all('li', {'class':'sresult lvresult clearfix li 
 # extracting requried data from html
 for product in products:
 
-    product_container = product.h3.a
-    product_name = product_container.text
+    product_name = product.h3.a.text
 
-    print(product_name)
+    product_price_container = product.ul.find('li', {'class':'lvprice prc'})
+    product_price = product_price_container.span.text
+
+    product_shipping_type_container = product.ul.find('li', {'class':'lvshipping'})
+    product_shipping_type = product_shipping_type_container.span.span.text
+
+    product_hotness_container = product.ul.find('li', {'class':'lvextras'})
+    product_hotness = product_hotness_container.div.text
+
+    product_seller_location = product.find('ul', {'class':'lvdetails'}).find('li', {'class':''}).text
+
+    print(product_name, product_price, product_shipping_type, product_hotness, product_seller_location)
+
+
+# write data onto a csv file
