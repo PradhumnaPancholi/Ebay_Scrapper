@@ -12,10 +12,15 @@ uClient.close()
 page_data_soup = soup(page_data, 'html.parser')
 products = page_data_soup.find_all('li', {'class':'sresult lvresult clearfix li shic'}) 
 
+# open a csv file and generate headers
+f = open('./data.csv', 'w')
+headers = 'Title, Price, Shipping, Hotness\n'
+f.write(headers)
+
 # extracting requried data from html
 for product in products:
 
-    product_name = product.h3.a.text
+    product_title = product.h3.a.text
 
     product_price_container = product.ul.find('li', {'class':'lvprice prc'})
     product_price = product_price_container.span.text
@@ -26,9 +31,18 @@ for product in products:
     product_hotness_container = product.ul.find('li', {'class':'lvextras'})
     product_hotness = product_hotness_container.div.text
 
-    product_seller_location = product.find('ul', {'class':'lvdetails'}).find('li', {'class':''}).text
+    # product_seller_location_container = product.find('ul', {'class':'lvdetails'}).find('li', {'class':''}).text
+    
+    # if product_seller_location_container != '':
+    #     product_seller_location = product_seller_location_container
+    # else:
+    #     product_seller_location = 'Not available'
 
-    print(product_name, product_price, product_shipping_type, product_hotness, product_seller_location)
+
+    # print(str(product_title), str(product_price), str(product_shipping_type), str(product_hotness))
 
 
-# write data onto a csv file
+    # write data onto a csv file
+    f.write(product_title + "," + product_price + "," + product_shipping_type + "," + product_hotness + "\n")
+
+f.close()
