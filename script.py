@@ -11,4 +11,11 @@ uClient.close()
 # html parsing
 page_data_soup = soup(page_data, 'html.parser')
 products = page_data_soup.find_all('li', {'class':'sresult lvresult clearfix li shic'}) 
-print(len(products))
+
+# extracting requried data from html
+for product in products:
+
+    product_container = product.h3.a
+    product_name = product_container.text
+
+    print(product_name)
